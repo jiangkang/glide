@@ -5,7 +5,6 @@ exec {
 include ':library'
 include ':library:pmd'
 include ':library:findbugs'
-include ':library:test'
 include ':instrumentation'
 include ':annotation'
 include ':annotation:compiler'

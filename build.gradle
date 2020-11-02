@@ -161,7 +161,7 @@ subprojects { project ->
                 && project.name != 'findbugs') {
             android {
                 lintOptions {
-                    warningsAsErrors true
+                    warningsAsErrors false
                     quiet true
                     // Caught by the violations plugin.
                     abortOnError false
