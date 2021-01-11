@@ -5,6 +5,9 @@ dependencies {
     implementation(project(':integration:recyclerview')) {
         transitive = false
     }
+    implementation(project(':integration:okhttp3')) {
+        transitive = false
+    }
     annotationProcessor project(':annotation:compiler')
 
     implementation "androidx.appcompat:appcompat:${ANDROID_X_VERSION}"

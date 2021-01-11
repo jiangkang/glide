@@ -22,7 +22,7 @@ public class HorizontalGalleryFragment extends Fragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    getLoaderManager().initLoader(R.id.loader_id_media_store_data, null, this);
+    LoaderManager.getInstance(this).initLoader(R.id.loader_id_media_store_data, null, this);
   }
 
   @Override

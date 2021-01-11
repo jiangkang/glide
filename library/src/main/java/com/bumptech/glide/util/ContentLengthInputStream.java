@@ -49,13 +49,20 @@ public final class ContentLengthInputStream extends FilterInputStream {
     this.contentLength = contentLength;
   }
 
+  /**
+   * 还有多少数据未读,该方法并不靠谱
+   */
   @Override
   public synchronized int available() throws IOException {
     return (int) Math.max(contentLength - readSoFar, in.available());
   }
 
+  /**
+   * 一次读一个字节
+   */
   @Override
   public synchronized int read() throws IOException {
+    // 返回-1则结束
     int value = super.read();
     checkReadSoFarOrThrow(value >= 0 ? 1 : -1);
     return value;
@@ -71,6 +78,9 @@ public final class ContentLengthInputStream extends FilterInputStream {
     return checkReadSoFarOrThrow(super.read(buffer, byteOffset, byteCount));
   }
 
+  /**
+   * 记录已经读取的字节数
+   */
   private int checkReadSoFarOrThrow(int read) throws IOException {
     if (read >= 0) {
       readSoFar += read;

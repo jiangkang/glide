@@ -18,6 +18,10 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /** Fetches an {@link InputStream} using the okhttp library. */
+
+/**
+ * OKHttp实际下载逻辑在此处
+ */
 public class OkHttpStreamFetcher implements DataFetcher<InputStream>, okhttp3.Callback {
   private static final String TAG = "OkHttpFetcher";
   private final Call.Factory client;
@@ -39,7 +43,10 @@ public class OkHttpStreamFetcher implements DataFetcher<InputStream>, okhttp3.Ca
   @Override
   public void loadData(
       @NonNull Priority priority, @NonNull final DataCallback<? super InputStream> callback) {
+
     Request.Builder requestBuilder = new Request.Builder().url(url.toStringUrl());
+
+    // http header
     for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
       String key = headerEntry.getKey();
       requestBuilder.addHeader(key, headerEntry.getValue());
@@ -48,6 +55,7 @@ public class OkHttpStreamFetcher implements DataFetcher<InputStream>, okhttp3.Ca
     this.callback = callback;
 
     call = client.newCall(request);
+    // 异步请求
     call.enqueue(this);
   }
 
@@ -62,9 +70,13 @@ public class OkHttpStreamFetcher implements DataFetcher<InputStream>, okhttp3.Ca
 
   @Override
   public void onResponse(@NonNull Call call, @NonNull Response response) {
+    // 成功回调
     responseBody = response.body();
     if (response.isSuccessful()) {
+      // 图片大小
       long contentLength = Preconditions.checkNotNull(responseBody).contentLength();
+
+      // 获取InputStream，并传递给其他模块处理
       stream = ContentLengthInputStream.obtain(responseBody.byteStream(), contentLength);
       callback.onDataReady(stream);
     } else {

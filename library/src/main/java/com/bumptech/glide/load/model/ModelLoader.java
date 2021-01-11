@@ -31,6 +31,7 @@ import java.util.List;
  * @param <Model> The type of the model.
  * @param <Data> The type of the data that can be used by a {@link
  *     com.bumptech.glide.load.ResourceDecoder} to decode a resource.
+ * 一个工厂接口，将Model转换成Data（可被解码成资源），然后交给DataFetcher使用
  */
 public interface ModelLoader<Model, Data> {
 
